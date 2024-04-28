@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <link href="assets/img/favicon.png" rel="icon">
+    <link rel="stylesheet"
+    href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
+  <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+		<script>
+			function generatePDF() {
+			const element = document.getElementById('container_content');
+			var opt = {
+                margin:       -1,
+				  filename:     'MedicalReport.pdf',
+				  image:        { type: 'jpeg', quality: 0.98 },
+				  html2canvas:  { scale: 2 },
+				  jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+				};
+				// Choose the element that our invoice is rendered in.
+				html2pdf().set(opt).from(element).save();
+			}
+		</script>
+       <style>
+
+
+.drag .textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: both;
+  min-height: 40px;
+  line-height: 20px;
+  resize:none;
+  outline:none;
+  border:2px solid rgb(246, 226, 9);
+}
+
+.drag .textarea[contenteditable]:empty::before {
+  content: "Placeholder still possible";
+  color: rgb(66, 3, 168);
+}
+
+/* Just for demo */
+* {
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body >
+    <!-- component -->
+<!-- This is an Orignal Reciept component -->
+<div class=" ">
+
+	<div class="  itmes-center justify-start  h-auto max-w-6xl mx-auto bg-white  container_content" id="container_content" id="container_content">
+     <div class="flex  w-full">
+       <div class="w-full  border-black  flex ">
+         <div class="w-2/12   ">
+             <img src="data:image/png;base64,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" class="p-2 h-20 rounded-xl" alt="logo">
+         </div>
+         <div class="w-10/12">
+             <div class="w-full h-6/6  flex justify-center items-starts">
+                <div class="w-12/12  justify-center items-center">
+                    <div class=" w-full flex  text-xs font-semibold justify-center"> Aligarh Muslim University</div>
+                    <div class=" w-full flex font-bold text-2xl justify-center ">ZAKIR HUSSAIN COLLEGE OF ENGINNERING AND TECHNOLOGY</div>
+                    <div class=" w-full flex  text-xs font-semibold justify-center"> </div>
+                    <div class=" w-full flex  text-xs font-semibold justify-center ">Ranked 35 For Engineering by NIRF India Rankings</div>
+                    <div class=" w-full flex font-bold text-md justify-center ">Performance Card</div>
+                    <div class=" w-full flex  text-xs font-semibold justify-center ">PROGRAMME : COMPUTER ENGINEERING(ARTIFICIAL INTELLIGENCE) (COBEAI) SEMESTER-VI</div>
+                </div>
+            </div>
+
+        </div>
+         
+       </div>
+       
+     </div>
+     <div class="flex w-full">
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md font-bold border border-black ">ENROL.No</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md font-bold border border-black">Examination Seat No.</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md font-bold border border-black">Name Of The Student</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md font-bold border border-black">Month & Year Of Examination</div>
+    </div>
+    <div class="flex w-full">
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md  border border-black">2020016400695535</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md  border border-black">32007</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md  border border-black">SHUJA HASAN</div>
+        <div class=" flex w-full justify-start px-2 items-center py-1 bg-white text-black text-md  border border-black">APRIL 2024</div>
+    </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Course Code</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Course Title</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Course Credits</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">TH/PRCT</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">IA</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Over-all</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Credits Earned(C)</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Grade Points(G)</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">CG = C X G</div>
+            <div class="h-7/12 w-full font-bold text-sm"></div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT401</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black ">CORE JAVA</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">C</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">B</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">6</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">12</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT4P1</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">PROGRAMMING IN C++</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A+</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">--</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A+</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">9</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">18</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT402</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">INTRODUCTION TO SYSTEM DESIGN</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">C</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">B</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">6</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">12</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT4P2</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">DATA STRUCTURE LAB</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">--</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">10</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">20</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT403</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">STATISTICAL METHODS-1</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">B</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">8</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">16</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT4P3</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">OBJECT ORIENTED PROGRAMMING</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">--</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">10</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">20</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT404</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">SOFTWARE ENGINEERING</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">D</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">C</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">5</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">10</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT4P4</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">MACHINE LEARNING</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">--</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">10</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">20</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT405</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">COMPUTER ARCHITECTURE</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">B</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">O</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">B+</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">7</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">14</div>
+        </div>
+     </div>
+     <div class="flex w-full">
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">UTTT4P5</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black">STATISTICAL METHODS-2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A+</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">--</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">A+</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">2</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">9</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">18</div>
+        </div>
+     </div>
+     
+     <div class="flex w-full">
+        <div class="w-5/12 border border-black flex flex-col px-5 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black text-right">TOTAL</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">20</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">---</div>
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">---</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">---</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">20</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">---</div>
+            
+        </div>
+        <div class="w-1/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black">162</div>
+        </div>
+     </div>
+            
+      
+     <div class="flex w-full">
+     
+        <div class="w-3/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Credits Earned = 20</div>
+
+        </div>
+        <div class="w-6/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">Semester Grade Performance Index(SGPI)=162/20=8.10</div>
+            
+        </div>
+        <div class="w-3/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm font-bold text-black text-center">RESULT=Passes/A Grade</div>
+            
+        </div>
+       
+     </div>
+     <div class="flex w-full">
+     
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black text-center">SEMESTER I</div>
+            <div class="h-5/12 w-full text-sm text-black text-center">Credits=20: SGPI=9.30</div>
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black text-center">SEMESTER II</div>
+            <div class="h-5/12 w-full text-sm text-black text-center">Credits=20: SGPI=9.40</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black text-center">SEMESTER III</div>
+            <div class="h-5/12 w-full text-sm text-black text-center">Credits=20: SGPI=8.50</div>
+            
+        </div>
+        <div class="w-4/12 border border-black flex flex-col px-2 items-center py-1">
+            <div class="h-5/12 w-full text-sm text-black text-center">SEMESTER IV</div>
+            <div class="h-5/12 w-full text-sm text-black text-center">Credits=20: SGPI=8.10</div>
+            
+        </div>
+     </div>
+     
+     
+     
+     
+     
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="flex w-full py-1 border border-black  ">
+        <div class="w-4/12  border-black flex flex-col px-2  py-1">
+        <div class="h-5/12 w-full text-sm font-bold text-black">Refer 10 Points Grade Table at the back</div>
+        <div class="h-5/12 w-full text-sm  text-black  py-3">Place : <span>Mumbai</span></div>
+        <div class="h-5/12 w-full text-sm  text-black py-1">Date: 19/04/2022</div>
+        </div>
+     </div> -->
+
+    <div class="flex justify-center items-center py-6">
+        <button onclick="window.print()" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            PRINT
+        </button>
+    </div>
+    </div>
+
+</div>
+</body>
+</html>
